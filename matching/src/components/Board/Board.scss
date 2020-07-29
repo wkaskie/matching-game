@@ -1,0 +1,12 @@
+.Board {
+    width: 100vw; // TODO: update later after testing
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__card {
+        flex: 1;
+        margin: 0.5rem 0.5rem 0 0;
+    }
+}

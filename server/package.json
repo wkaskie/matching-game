@@ -1,0 +1,14 @@
+{
+  "name": "matching-game-server",
+  "version": "1.0.0",
+  "description": "Handles Websocket, routing and endpoints for Matching Game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Wayne F. Kaskie, Sr.",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
