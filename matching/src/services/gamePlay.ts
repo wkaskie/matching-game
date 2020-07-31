@@ -48,13 +48,6 @@ class GamePlay {
     return cards[0].id === cards[1].id;
   }
 
-  hideFoundCards(cardsToHide: CardDataType[]) {
-    return cardsToHide.map(card => {
-      card.isFound = true;
-      card.isVisible = false;
-      return card;
-    });
-  }
   //TODO: Make this work with various deck sizes
   selectCards(totalCardCount: number) {
     // based on a 52-card deck
@@ -70,8 +63,6 @@ class GamePlay {
       ...cardPairs,
       ...JSON.parse(JSON.stringify(cardPairs)), // need to double the cards so that there's a match
     ]);
-
-
   }
 
   newGame(): CardDataType[] {

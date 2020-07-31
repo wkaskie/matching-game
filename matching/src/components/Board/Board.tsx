@@ -12,8 +12,8 @@ export interface Props {
 
 const Board = ({ cardGrid, currentPlayer, onPlayerChange, onScoreIncrement }: Props) => {
   const [grid, setGrid] = useState(cardGrid);
-  const [collecting, setCollecting] = useState(false); // "collect the cards when matches are found"
-  const [showNextButton, setShowNextButton] = useState(false); // hand over your turn
+  // const [collecting, setCollecting] = useState(false); // "collect the cards when matches are found"
+  // const [showNextButton, setShowNextButton] = useState(false); // hand over your turn
 
   const handleCardClick = (card: CardDataType, visibilityState: boolean) => {
     card.isVisible = visibilityState;
@@ -22,12 +22,12 @@ const Board = ({ cardGrid, currentPlayer, onPlayerChange, onScoreIncrement }: Pr
     if (visibleCards.length === 2) {
       const cardsMatch = game.compareVisibleCards(visibleCards);
       if (cardsMatch) {
-        setCollecting(true);
+        // setCollecting(true);
         setTimeout(() => {
           handleCollectClick();
         }, 1000);
       } else {
-        setShowNextButton(true);
+        // setShowNextButton(true);
         setTimeout(() => {
           handleNextClick();
         }, 1000);
@@ -39,7 +39,7 @@ const Board = ({ cardGrid, currentPlayer, onPlayerChange, onScoreIncrement }: Pr
     grid
       .filter((card) => card.isVisible)
       .forEach((card) => (card.isVisible = false));
-    setShowNextButton(false);
+    // setShowNextButton(false);
     setGrid([...grid]); // need to make
     onPlayerChange();
   };
@@ -51,7 +51,7 @@ const Board = ({ cardGrid, currentPlayer, onPlayerChange, onScoreIncrement }: Pr
         card.isVisible = false;
         card.isFound = true;
       });
-      setCollecting(false);
+      // setCollecting(false);
       setGrid([...grid]); // need to make
       onScoreIncrement()
   };
