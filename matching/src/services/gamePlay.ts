@@ -38,9 +38,9 @@ const helper = {
 
 class GamePlay {
   players = [{name: 1, score: 0},{name: 2, score: 0}]; // TODO: pull scores from server
-  playerTurnTracker = playerTurn(this.players);
+  playerTurnTracker: Generator<number> = playerTurn(this.players);
 
-  nextTurn() {
+  nextTurn(): number {
     return this.playerTurnTracker.next().value;
   }
 

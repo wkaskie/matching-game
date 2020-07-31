@@ -6,6 +6,10 @@
     align-items: center;
     flex-wrap: wrap;
 
+    &__subtitle {
+        width: 100%;
+        text-align: left;
+    }
     &__card {
         flex: 1 0 auto;
         min-width: 15vw;

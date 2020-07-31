@@ -1,9 +1,15 @@
-.Scorekeeper {
+.ScoreKeeper {
+    background: tan;
     border: 1px solid gray;
     border-radius: 5px;
     padding: 0.25rem 1rem;
 
     &__player {
         margin-bottom: 0.5rem;
+
+        &--playing {
+            background: teal;
+            color: white;
+        }
     }
 }

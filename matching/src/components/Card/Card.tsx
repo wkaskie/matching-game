@@ -41,22 +41,17 @@ export const Card = ({
     backgroundPosition: `${xPos}% ${yPos}%`,
   };
 
-  console.log(
-    'Rendering card ' +
-      card.id +
-      ' cardObj: ' +
-      card.isVisible
-  );
-
   return (
     <div
       className={classNames(className, 'Card', { Card__found: card.isFound })}
       onClick={flipCard}
     >
       <div
-        className={classNames('Card__face', { 'Card__face--back': !isVisible })}
-        style={cardStyle}
-      ></div>
+        className={classNames('Card__face', { 'Card__face--flipped': !isVisible })}
+      >
+        <div className="Card__face--back"></div>
+        <div className="Card__face--front" style={cardStyle}></div>
+      </div>
     </div>
   );
 };

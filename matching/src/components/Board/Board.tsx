@@ -5,11 +5,12 @@ import './Board.scss';
 
 export interface Props {
   cardGrid: CardDataType[];
+  currentPlayer: number;
+  onPlayerChange: () => void;
 }
 
-const Board = ({ cardGrid }: Props) => {
+const Board = ({ cardGrid, currentPlayer, onPlayerChange }: Props) => {
   const [grid, setGrid] = useState(cardGrid);
-  const [currentPlayer, setCurrentPlayer] = useState(game.nextTurn());
   const [collecting, setCollecting] = useState(false); // "collect the cards when matches are found"
   const [showNextButton, setShowNextButton] = useState(false); // hand over your turn
 
@@ -19,14 +20,12 @@ const Board = ({ cardGrid }: Props) => {
     const visibleCards = grid.filter((card) => card.isVisible);
     if (visibleCards.length === 2) {
       const cardsMatch = game.compareVisibleCards(visibleCards);
-      console.log(cardsMatch);
       if (cardsMatch) {
         setCollecting(true);
       } else {
         setShowNextButton(true);
       }
     }
-    console.log('Done with click handler');
   };
 
   const handleNextClick = () => {
@@ -35,7 +34,7 @@ const Board = ({ cardGrid }: Props) => {
       .forEach((card) => (card.isVisible = false));
     setShowNextButton(false);
     setGrid([...grid]); // need to make
-    setCurrentPlayer(game.nextTurn());
+    onPlayerChange();
   };
 
   const handleCollectClick = () => {
@@ -51,7 +50,7 @@ const Board = ({ cardGrid }: Props) => {
 
   return (
     <div className="Board">
-      <p style={{ width: '100%' }}>Current Player: {currentPlayer}</p>
+      <p className="Board__subtitle">Your turn Player {currentPlayer}</p>
       {grid.map((val, indx) => (
         <Card
           key={indx}
