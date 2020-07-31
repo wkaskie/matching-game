@@ -1,0 +1,11 @@
+.Footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    &__button {
+        margin-top: 1rem;
+        max-width: 40%;
+        
+    }
+}

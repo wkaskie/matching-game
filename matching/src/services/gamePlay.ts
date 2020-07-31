@@ -1,9 +1,10 @@
 import { CardDataType } from '../components/Card/Card';
+import { Player } from '../components/ScoreKeeper/PlayerScore';
 
-function* playerTurn(players: number[]) {
+function* playerTurn(players: Player[]) {
   let index = 0;
   while (true) {
-    yield players[index];
+    yield players[index].name;
     index = index < players.length - 1 ? index + 1 : 0;
   }
 }
@@ -36,7 +37,7 @@ const helper = {
 };
 
 class GamePlay {
-  players = [1, 2];
+  players = [{name: 1, score: 0},{name: 2, score: 0}]; // TODO: pull scores from server
   playerTurnTracker = playerTurn(this.players);
 
   nextTurn() {

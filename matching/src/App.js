@@ -1,15 +1,12 @@
 import React from 'react';
-import Board from './components/Board/Board';
-import game from './services/gamePlay';
+import Game from './components/Game'
 import './App.css';
 
 function App() {
-  const cards = game.newGame();
   return (
     <div className="App">
-      <Board cardGrid={cards}></Board>
+      <Game></Game>
     </div>
   );
 }
-
 export default App;
