@@ -11,7 +11,6 @@ interface Props {
 export const ScoreKeeper = ({ players, currentPlayer }: Props) => {
   return (
     <div className="ScoreKeeper">
-      <p>Current player { currentPlayer }</p>
       {players.map((player) => (
         <div key={player.name} className={classNames("ScoreKeeper__player",{'ScoreKeeper__player--playing': currentPlayer === player.name})}>
         <PlayerScore player={player}></PlayerScore></div>

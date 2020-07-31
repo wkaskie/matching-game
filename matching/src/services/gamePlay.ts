@@ -68,24 +68,16 @@ class GamePlay {
 
     return helper.shuffleCards([
       ...cardPairs,
-      ...JSON.parse(JSON.stringify(cardPairs)),
-    ]); // need to double the cards so that there's a match
+      ...JSON.parse(JSON.stringify(cardPairs)), // need to double the cards so that there's a match
+    ]);
 
-    // This didn't turn out to be great, but a good lesson in strong types
-    // return cardPairs.reduce((shuffledArray, card) => {
-    //     const methodOptions: string[] = ['push', 'unshift']; // add to the begining or end
-    //     const headsOrTails = Math.floor(Math.random() * 1); // 0 or 1
-    //     const methodToUse = methodOptions[headsOrTails] as keyof Array<string>;
-    //     (shuffledArray[methodToUse] as Function)(card);
-    //     return shuffledArray;
-    // }, [])
+
   }
 
-  newGame() {
-    const newGrid = this.selectCards(10);
-    return newGrid;
+  newGame(): CardDataType[] {
+    return this.selectCards(10);
   }
 }
 
-const game = new GamePlay();
+const game = new GamePlay(); // create a new instance to return
 export default game;
