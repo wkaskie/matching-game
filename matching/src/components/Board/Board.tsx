@@ -14,6 +14,7 @@ const Board = ({ cardGrid, currentPlayer, onPlayerChange, onScoreIncrement }: Pr
   const [grid, setGrid] = useState(cardGrid);
   // const [collecting, setCollecting] = useState(false); // "collect the cards when matches are found"
   // const [showNextButton, setShowNextButton] = useState(false); // hand over your turn
+  const [winnerFound, setWinnerFound] = useState(false);
 
   const handleCardClick = (card: CardDataType, visibilityState: boolean) => {
     card.isVisible = visibilityState;
@@ -53,7 +54,10 @@ const Board = ({ cardGrid, currentPlayer, onPlayerChange, onScoreIncrement }: Pr
       });
       // setCollecting(false);
       setGrid([...grid]); // need to make
-      onScoreIncrement()
+      onScoreIncrement();
+    if(!grid.some(card => !card.isFound)) {
+      setWinnerFound(true);
+    };
   };
 
   return (
@@ -68,20 +72,11 @@ const Board = ({ cardGrid, currentPlayer, onPlayerChange, onScoreIncrement }: Pr
           onClick={(visibility) => handleCardClick(val, visibility)}
         ></Card>
       ))}
-      {/* {collecting && (
-        <div className="Board__modal">
-          <button className="Board__modal--button" onClick={handleCollectClick}>
-            Collect
-          </button>
+      {winnerFound && (
+        <div className="Board__winner-announcement">
+          <h2>Congratulations Player {currentPlayer}</h2>
         </div>
       )}
-      {showNextButton && (
-        <div className="Board__modal">
-          <div role="button" className="Board__modal--button" onClick={handleNextClick}>
-            Next
-          </div>
-        </div>
-      )} */}
     </div>
   );
 };

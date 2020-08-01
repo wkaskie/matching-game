@@ -17,6 +17,15 @@
         margin: 0.5rem 0.5rem 0 0;
     }
 
+    &__winner-announcement {
+        position: absolute;
+
+        h2 {
+            color: teal;
+            font-size: 4rem;
+        }
+    }
+
     &__modal {
         position: absolute;
         top: 0;
