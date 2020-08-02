@@ -4,6 +4,7 @@ import './Card.scss';
 
 export interface CardDataType {
   id: string;
+  uniqueId: string;
   xPos: number;
   yPos: number;
   isVisible?: boolean;
