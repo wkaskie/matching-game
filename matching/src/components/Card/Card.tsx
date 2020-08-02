@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import './Card.scss';
 
@@ -28,7 +28,6 @@ export const Card = ({
   isVisible,
 }: Props) => {
   const { xPos, yPos } = card;
-  const [url] = useState(cardFrontImg); // not needed now, but in case we want to switch it
 
   const flipCard = () => {
     if (onClick) {
@@ -37,14 +36,14 @@ export const Card = ({
   };
 
   let cardStyle = {
-    backgroundImage: 'url(' + url + ')',
+    backgroundImage: 'url(' + cardFrontImg + ')',
     backgroundPosition: `${xPos}% ${yPos}%`,
   };
 
   return (
     <div
       className={classNames(className, 'Card', { Card__found: card.isFound })}
-      onClick={flipCard}
+      onClick={() => flipCard()}
     >
       <div
         className={classNames('Card__face', { 'Card__face--flipped': !isVisible })}

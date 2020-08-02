@@ -1,5 +1,7 @@
-import { CardDataType } from '../components/Card/Card';
-import { Player } from '../components/ScoreKeeper/PlayerScore';
+import { CardDataType } from "../components/Card/Card";
+import { Player } from "../components/ScoreKeeper/PlayerScore";
+import helper from "./deckHelper";
+import GameStore, { stateType } from "../components/Game/GameStore";
 
 function* playerTurn(players: Player[]) {
   let index = 0;
@@ -8,37 +10,92 @@ function* playerTurn(players: Player[]) {
     index = index < players.length - 1 ? index + 1 : 0;
   }
 }
-
-const helper = {
-  randomNum: (max: number) => {
-    return Math.floor(Math.random() * max);
-  },
-
-  randomSet: (count: number): Set<number> => {
-    // create a unique set of random numbers
-    const unique = new Set<number>();
-    while (unique.size < count) {
-      const randomNumber = helper.randomNum(count);
-      unique.add(randomNumber); // add it to the set. Sets will not allow dupes
-    }
-
-    return unique;
-  },
-
-  shuffleCards: (gameDeck: CardDataType[]) => {
-    const theNewOrder = helper.randomSet(gameDeck.length);
-    const newOrderArray = Array.from(theNewOrder);
-    let shuffledArray: CardDataType[] = new Array(gameDeck.length);
-    gameDeck.forEach((card, index) => {
-      shuffledArray.splice(newOrderArray[index], 1, card);
-    });
-    return shuffledArray;
-  },
-};
+// interface contextInterface {
+//   grid: CardDataType[];
+//   setGrid: () => {};
+// }
+// const emptyCardGrid: CardDataType[] = [];
+const fakePlayers = [
+  { name: 1, score: 0 },
+  { name: 2, score: 0 },
+];
 
 class GamePlay {
-  players = [{name: 1, score: 0},{name: 2, score: 0}]; // TODO: pull scores from server
-  playerTurnTracker: Generator<number> = playerTurn(this.players);
+  constructor() {
+    console.log("CREATING A GAME");
+    const _this = this;
+    GameStore.subscribeState((state: stateType) => {
+      _this._grid = state.grid;
+      _this._currentPlayer = state.currentPlayer;
+      _this._players = state.players;
+      _this._theWinner = state.winner;
+    });
+  }
+
+  _players = fakePlayers; // TODO: pull scores from server
+  playerTurnTracker: Generator<number> = playerTurn(this._players);
+  _grid: CardDataType[] = [];
+  _currentPlayer: number = 0;
+  _theWinner: number | undefined = undefined;
+
+  // Update the local UI, message the server, determine next (win, lose, etc)
+  handleCardClicked(card: CardDataType, visibilityState: boolean) {
+    card.isVisible = visibilityState;
+    const visibleCards = this._grid.filter((card) => card.isVisible);
+    if (visibleCards.length === 2) {
+      const cardsMatch = this.compareVisibleCards(visibleCards);
+      if (cardsMatch) {
+        setTimeout(() => {
+          this.handleCollectClick();
+        }, 1000); // keep the match visible for a second
+      } else {
+        setTimeout(() => {
+          this.handleNextClick();
+        }, 1000); // keep the match visible for a second
+      }
+    }
+    // this.grid$.next(this._grid);
+    GameStore.setGrid([...this._grid]);
+  }
+
+  handleCollectClick() {
+    this._grid
+      .filter((card) => card.isVisible) /* grab all visible cards */
+      .forEach((card) => {
+        // Hide the card and mark it found
+        card.isVisible = false;
+        card.isFound = true;
+      });
+    GameStore.setGrid([...this._grid]);
+
+    // give the current player some points
+    this.handleIncrementScore();
+    if (!this._grid.some((card) => !card.isFound)) {
+      GameStore.setWinner(this.identifyWinner());
+    }
+  }
+
+  handleNextClick() {
+    this._grid
+      .filter((card) => card.isVisible)
+      .forEach((card) => (card.isVisible = false));
+    GameStore.setGrid([...this._grid]);
+    GameStore.setCurrentPlayer(this.nextTurn());
+  }
+
+  handleIncrementScore() {
+    const updatedPlayers = [...this._players];
+    const playerId = this._currentPlayer;
+    const playerInTheList = updatedPlayers.find(
+      (player) => player.name === playerId
+    );
+    if (playerInTheList) ++playerInTheList.score; // the if statement is to make TS happy
+    GameStore.setPlayers(updatedPlayers);
+  }
+
+  identifyWinner() {
+    return this._players.reduce((prev, current) => (prev.score > current.score) ? prev : current).name;
+  }
 
   nextTurn(): number {
     return this.playerTurnTracker.next().value;
@@ -59,16 +116,19 @@ class GamePlay {
       return { id: `card-${index}`, xPos: newCardValue, yPos: newCardFace };
     });
 
-    return helper.shuffleCards([
+    const gameDeck = helper.shuffleCards([
       ...cardPairs,
       ...JSON.parse(JSON.stringify(cardPairs)), // need to double the cards so that there's a match
     ]);
+
+    GameStore.setGrid(gameDeck);
   }
 
-  newGame(): CardDataType[] {
-    return this.selectCards(10);
+  newGame() {
+    GameStore.setPlayers(fakePlayers);
+    this.selectCards(10);
   }
 }
 
-const game = new GamePlay(); // create a new instance to return
+const game = new GamePlay();
 export default game;

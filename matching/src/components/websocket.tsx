@@ -10,14 +10,13 @@ export class SocketTest extends Component {
     };
     client.onmessage = (message) => {
       console.log(message);
+      
     };
   }
   
   render() {
     return (
-      <div>
-        Practical Intro To WebSockets.
-      </div>
+      <span></span>
     );
   }
 }

@@ -11,7 +11,7 @@ export const Footer = ({ onNewGame }: Props) => {
 
     return (
         <div className="Footer">
-            <div className="Footer__button button" onClick={handleNewGameClick}>
+            <div className="Footer__button button" onClick={() => handleNewGameClick()}>
                 Start New Game
             </div>
         </div>

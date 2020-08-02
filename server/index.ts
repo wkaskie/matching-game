@@ -63,12 +63,3 @@ app.get("/", (req, res) => {
 server.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-
-// `server` is a vanilla Node.js HTTP server, so use
-// the same ws upgrade process described here:
-// https://www.npmjs.com/package/ws#multiple-servers-sharing-a-single-https-server
-// server.on('upgrade', (request, socket, head) => {
-//     wsServer.handleUpgrade(request, socket, head, socket => {
-//       wsServer.emit('connection', socket, request);
-//     });
-//   });
