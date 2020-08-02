@@ -1,5 +1,4 @@
 import React, { useState, useLayoutEffect } from "react";
-import { SocketTest } from "../websocket";
 import { CardDataType } from "../Card/Card";
 import { Header } from "../Header/Header";
 import Board from "../Board/Board";
@@ -27,7 +26,6 @@ export const Game = () => {
 
   return (
       <div className="Game">
-        <SocketTest></SocketTest>
         <Header></Header>
         <div className="Game__scorekeeper">
           <ScoreKeeper

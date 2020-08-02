@@ -7,25 +7,7 @@ const server = http.createServer(app);
 const port = 3050;
 
 const wsServer = new WebSocket.Server({ server });
-wsServer.on("connection", (socket: WebSocket) => {
-  socket.on("message", (message: string) => {
-    console.log(`received: ${message}`);
 
-    const broadcastRegex = /^broadcast\:/;
-
-    if (broadcastRegex.test(message)) {
-      message = message.replace(broadcastRegex, "");
-      wsServer.clients.forEach((client) => {
-        if (client != socket) {
-          client.send(`Hello, broadcast message -> ${message}`);
-        }
-      });
-    } else {
-      socket.send("Thank you for sending " + message);
-    }
-  });
-  socket.send("Thanks for connecting");
-});
 // I'm maintaining all active connections in this object
 const clients: {
   [key: string]: string;
@@ -40,7 +22,23 @@ const getUniqueID = (): string => {
   return s4() + s4() + "-" + s4();
 };
 
+wsServer.on("connection", (socket: WebSocket) => {
+  socket.on("message", (message: string) => {
+    console.log(`received: ${message}`);
+
+    wsServer.clients.forEach((client) => {
+      if (client != socket) {
+        socket.send(`Hello, ${message}`);
+      }
+    });
+  });
+
+  socket.send("Thanks for connecting");
+});
+
 wsServer.on("request", function (request) {
+  console.log("REQUEST MADE");
+  
   var userID = getUniqueID();
   console.log(
     new Date() +
