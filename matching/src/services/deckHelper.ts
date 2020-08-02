@@ -1,6 +1,7 @@
 import { CardDataType } from "../components/Card/Card";
 
 const deckHelper = {
+  
   randomNum: (max: number) => {
     return Math.floor(Math.random() * max);
   },
@@ -25,6 +26,18 @@ const deckHelper = {
     });
     return shuffledArray;
   },
+
+  getUniquePair: (existingPicks: Set<string | unknown>) => {
+    let suit;
+    let value;
+    console.log(existingPicks);
+    do {
+      value = Number((deckHelper.randomNum(12) * (100 / 12)).toFixed(2));
+      suit = Number((deckHelper.randomNum(4) * (100 / 3)).toFixed(2)); // Hearts - Clubs based on our sprite
+    } while (existingPicks.has(`${suit}-${value}`));
+debugger;
+    return { cardSuit: suit, cardValue: value };
+  }
 };
 
 export default deckHelper;

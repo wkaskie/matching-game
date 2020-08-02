@@ -6,7 +6,8 @@ export interface stateType {
     grid: CardDataType[],
     players: Player[],
     currentPlayer: number,
-    winner: number 
+    winner: number,
+    self: number,
 }
 
 export interface GameStoreType {
@@ -16,6 +17,7 @@ export interface GameStoreType {
     setPlayers: (newPlayers: Player[]) => void;
     setCurrentPlayer: (newCurrentPlayer: number) => void;
     setWinner: (newWinner: number) => void;
+    setSelf: (selfId: number) => void;
     subscribeState: (setState:any) => Subscription;
     initialState: stateType;
 }
@@ -24,7 +26,8 @@ export const initialState: stateType = {
     grid: [],
     players: [],
     currentPlayer: 1,
-    winner: 0
+    winner: 0,
+    self: 0
 }
 
 let state = initialState;
@@ -61,6 +64,13 @@ const GameStore: GameStoreType = {
         state = {
             ...state,
             winner: winner
+        };
+        gameSubject.next(state);
+    },
+    setSelf: (selfId: number) => {
+        state = {
+            ...state,
+            self: selfId
         };
         gameSubject.next(state);
     },

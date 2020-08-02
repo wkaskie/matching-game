@@ -3,4 +3,11 @@
     &__scorekeeper {
         margin-top: 2rem;
     }
+
+    &__body {
+
+        &--no-click {
+            pointer-events: none;
+        }
+    }
 }
