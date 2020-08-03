@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { w3cwebsocket as W3CWebSocket } from 'websocket';
 import gamePlay from '../services/gamePlay';
 
-const server = process.env.SERVER_URL || 'ws://localhost:3050';
+const server = process.env.REACT_APP_SERVER_URL || 'ws://localhost:3050';
 export const client = new W3CWebSocket(server);
 
 export class SocketTest extends Component {
@@ -35,6 +35,6 @@ export class SocketTest extends Component {
   }
 
   render() {
-    return <span></span>;
+    return <span>SERVER: {server} {process.env.REACT_APP_SERVER_URL} in {process.env.NODE_ENV}</span>;
   }
 }

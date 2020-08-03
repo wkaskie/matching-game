@@ -1,15 +1,15 @@
-FROM node:12
+FROM node:current-alpine3.12
 
 # Set app directory
 WORKDIR /usr/src/app
 
 #install dependencies
 COPY package*.json ./
-RUN npm i ci --only=production
+RUN yarn
 
-#Bundles the source
+#Bundle the source
 COPY . .
 
 EXPOSE 3050
 
-CMD yarn build && node server/index.js
+CMD npm run build && node server/index.js
