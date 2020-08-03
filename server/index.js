@@ -62,10 +62,6 @@ wsServer.on('connection', (socket, request) => {
   socket.send(confirmationData);
 });
 
-// app.get('/', (req, res) => {
-//   res.send('yes or no');
-// });
-
 server.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
