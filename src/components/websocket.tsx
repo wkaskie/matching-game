@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { w3cwebsocket as W3CWebSocket } from 'websocket';
 import gamePlay from '../services/gamePlay';
 
-export const client = new W3CWebSocket('ws://localhost:3050');
+const server = process.env.SERVER_URL || 'ws://localhost:3050';
+export const client = new W3CWebSocket(server);
 
 export class SocketTest extends Component {
   componentWillMount() {
