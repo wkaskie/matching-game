@@ -4,7 +4,7 @@ const WebSocket = require('ws');
 
 const app = express();
 const server = http.createServer(app);
-const port = 3050;
+const port = process.env.PORT || 3050;
 
 // Middleware time! Used to serve the react app built files
 app.use(express.static('build'));
